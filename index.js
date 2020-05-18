@@ -9,8 +9,9 @@ const mongoose = require('mongoose');
 
 /* Зона импорта рутов */
 
-const usersRoutes = require('./routes/users');
-const teachersRoutes = require('./routes/teachers');
+const authRouters = require('./routers/auth');
+const usersRouters = require('./routers/users');
+const teachersRouters = require('./routers/teachers');
 
 /*****************************************/
 
@@ -19,10 +20,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-/* Зона подключения рутов */
+/* Зона подключения роутеров */
 
-app.use('/api', usersRoutes);
-app.use('/api', teachersRoutes);
+app.use('/api', authRouters);
+app.use('/api', usersRouters);
+app.use('/api', teachersRouters);
 
 /*****************************************/
 
