@@ -4,9 +4,8 @@ const User = require('../models/User');
 const JWT_KEY = require('../utils/consts').JWT_TOKEN;
 
 const auth = async(req, res, next) => {
-    const token = req.header('Authorization').replace('Bearer ', '');
-
     try {
+        const token = req.header('Authorization').replace('Bearer ', '');
         const data = jwt.verify(token, JWT_KEY);
         const user = await User.findOne( {
            _id: data._id,
