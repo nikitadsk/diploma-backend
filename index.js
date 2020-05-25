@@ -4,6 +4,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+require('dotenv').config()
+
+const CONNECTION_STRING = process.env.CONNECTION_STRING;
 
 /*****************************************/
 
@@ -38,7 +41,7 @@ app.use('/api', studentsRouters);
 /*****************************************/
 
 mongoose
-    .connect('mongodb://45.143.93.123:27017/vgpk_database', {
+    .connect(CONNECTION_STRING, {
         useUnifiedTopology: true,
         useNewUrlParser: true
     })
