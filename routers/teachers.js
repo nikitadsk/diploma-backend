@@ -24,7 +24,7 @@ router.get('/teachers/by-discipline-id/:disciplineId', auth, async (req, res) =>
     res.send(teachers);
 });
 
-router.post('/teachers/', auth, async (req, res) => {
+router.post('/teachers', auth, async (req, res) => {
     const teacher = new Teacher(req.body);
     teacher._id = new mongoose.mongo.ObjectId();
     await teacher.save();
