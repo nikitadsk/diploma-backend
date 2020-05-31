@@ -14,7 +14,8 @@ const auth = async(req, res, next) => {
 
         if (!user) {
             res.status(401).send({
-                error: 'Нет доступа к ресурсу'
+                title: 'Вы не авторизованы',
+                message: 'Нет доступа к ресурсу'
             });
         }
 
@@ -23,7 +24,8 @@ const auth = async(req, res, next) => {
         next();
     } catch (error) {
         res.status(401).send({
-            error: 'Нет доступа к ресурсу'
+            title: 'Вы не авторизованы',
+            message: 'Нет доступа к ресурсу'
         });
     }
 }

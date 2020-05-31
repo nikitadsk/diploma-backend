@@ -29,7 +29,12 @@ router.post('/disciplines', auth, async (req, res) => {
     const disciplines = new Discipline(req.body);
     disciplines._id = new mongoose.mongo.ObjectId();
     await disciplines.save();
-    res.send();
+    res.send({
+        success: {
+            title: 'Успех',
+            message: 'Дисциплина добавлена'
+        }
+    });
 });
 
 router.delete('/disciplines/:disciplineId', auth, async (req, res) => {
@@ -45,7 +50,12 @@ router.delete('/disciplines/:disciplineId', auth, async (req, res) => {
        }
    }).updateMany({}, { $pull: { disciplineIds: req.params.disciplineId }});
 
-   res.send();
+   res.send({
+       success: {
+           title: 'Успех',
+           message: 'Дисциплина удалена'
+       }
+   });
 });
 
 module.exports = router;
