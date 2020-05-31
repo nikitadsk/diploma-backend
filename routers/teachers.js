@@ -28,7 +28,12 @@ router.post('/teachers', auth, async (req, res) => {
     const teacher = new Teacher(req.body);
     teacher._id = new mongoose.mongo.ObjectId();
     await teacher.save();
-    res.sendStatus(200).send();
+    res.send({
+        success: {
+            title: 'Успех',
+            message: 'Преподаватель добавлен'
+        }
+    });
 });
 
 module.exports = router;
