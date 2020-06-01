@@ -7,7 +7,8 @@ const schema = mongoose.Schema({
     firstName: String,
     lastName: String,
     patronym: String,
-    disciplineIds: [ObjectId]
+    disciplineIds: [ObjectId],
+    isCurator: Boolean
 });
 
 module.exports = mongoose.model('Teacher', schema);
