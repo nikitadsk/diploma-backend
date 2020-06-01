@@ -5,6 +5,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const Discipline = require('../models/Discipline');
 const Teacher = require('../models/Teacher');
+const Group = require('../models/Group');
 
 router.get('/disciplines', auth, async (req, res) => {
     const disciplines = await Discipline.find();
@@ -49,6 +50,12 @@ router.delete('/disciplines/:disciplineId', auth, async (req, res) => {
            $in: req.params.disciplineId
        }
    }).updateMany({}, { $pull: { disciplineIds: req.params.disciplineId }});
+
+    await Group.find({
+        'disciplineIds': {
+            $in: req.params.disciplineId
+        }
+    }).updateMany({}, { $pull: { disciplineIds: req.params.disciplineId }});
 
    res.send({
        success: {
