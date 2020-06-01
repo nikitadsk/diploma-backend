@@ -7,7 +7,10 @@ const schema = mongoose.Schema({
     groupNumber: Number,
     specialtyId: ObjectId,
     curatorId: ObjectId,
-    headmanId: ObjectId,
+    headmanId: {
+        type: ObjectId,
+        required: false
+    },
     disciplineIds: [ObjectId]
 });
 

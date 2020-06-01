@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 
 const auth = require('../middleware/auth');
@@ -25,5 +26,24 @@ router.get('/groups/by-curator-id/:curatorId', auth, async (req, res) => {
     res.send(group);
 });
 
+router.post('/groups', auth, async (req, res) => {
+    const group = new Group(req.body);
+    group._id = new mongoose.mongo.ObjectId();
+    await group.save();
+    await Teacher.updateOne({
+        _id: req.body.curatorId
+    }, {
+        $set: {
+            isCurator: true
+        }
+    });
+
+    res.send({
+        success: {
+            title: 'Успех',
+            message: 'Группа создана'
+        }
+    });
+});
 
 module.exports = router;
