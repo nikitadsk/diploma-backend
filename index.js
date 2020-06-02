@@ -19,6 +19,7 @@ const disciplinesRouters = require('./routers/disciplines');
 const groupsRouters = require('./routers/groups');
 const specialtyRouters = require('./routers/specialty');
 const studentsRouters = require('./routers/students');
+const schedulesRouters = require('./routers/schedules');
 
 /*****************************************/
 
@@ -36,7 +37,7 @@ app.use('/api', disciplinesRouters);
 app.use('/api', groupsRouters);
 app.use('/api', specialtyRouters);
 app.use('/api', studentsRouters);
-
+app.use('/api', schedulesRouters);
 
 /*****************************************/
 
