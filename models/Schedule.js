@@ -10,7 +10,8 @@ const schema = mongoose.Schema({
         teacherId: ObjectId,
         disciplineId: ObjectId
     }],
-    isVerified: Boolean
+    isVerified: Boolean,
+    isMarked: Boolean
 });
 
 module.exports = mongoose.model('Schedule', schema);
