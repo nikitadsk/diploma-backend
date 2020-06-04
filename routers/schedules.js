@@ -66,6 +66,8 @@ router.get('/schedules/by-teacher-id/:teacherId', auth, async (req, res) => {
 router.post('/schedules', auth, async (req, res) => {
     const schedules = new Schedule(req.body);
     schedules._id = new mongoose.mongo.ObjectId();
+    schedules.isMarked = false;
+    schedules.isVerified = false;
     await schedules.save();
     res.send({
         success: {

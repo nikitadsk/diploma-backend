@@ -29,6 +29,10 @@ router.get('/teachers/by-discipline-id/:disciplineId', auth, async (req, res) =>
             $in: mongoose.Types.ObjectId(req.params.disciplineId)
         }
     });
+
+    for (const teacher of teachers) {
+        teacher._doc.name = `${teacher.lastName} ${teacher.firstName} ${teacher.patronym}`;
+    }
     res.send(teachers);
 });
 
