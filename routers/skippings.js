@@ -4,6 +4,7 @@ const router = express.Router();
 
 const auth = require('../middleware/auth');
 const Skipping = require('../models/Skipping');
+const Schedule = require('../models/Schedule');
 
 router.get('/skippings', auth, async (req, res) => {
     const skippings = await Skipping.find();
@@ -11,9 +12,15 @@ router.get('/skippings', auth, async (req, res) => {
 });
 
 router.post('/skippings', auth, async (req, res) => {
-    const skippings = new Skipping(req.body);
-    skippings._id = new mongoose.mongo.ObjectId();
-    await skippings.save();
+    const skipping = new Skipping(req.body);
+    skipping._id = new mongoose.mongo.ObjectId();
+    await Schedule.updateOne({ _id: skipping.scheduleId }, {
+        $set: {
+            isMarked: true
+        }
+    });
+
+    await skipping.save();
     res.send({
         success: {
             title: 'Успех',
