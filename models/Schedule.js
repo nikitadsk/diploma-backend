@@ -11,7 +11,8 @@ const schema = mongoose.Schema({
         disciplineId: ObjectId
     }],
     isVerified: Boolean,
-    isMarked: Boolean
+    isMarked: Boolean,
+    skippings: [Object]
 });
 
 module.exports = mongoose.model('Schedule', schema);

@@ -48,4 +48,28 @@ router.post('/skippings', auth, async (req, res) => {
     });
 });
 
+router.post('/skippings/by-group-and-dates', auth, async (req, res) => {
+    const { startDate, endDate, groupId } = req.body;
+    const schedules = await Schedule.find({
+        date: {
+            $gte: startDate,
+            $lte: endDate,
+        },
+        groupId,
+        isVerified: true
+    });
+
+    const schedulesIds = schedules.map(schedule => schedule._id);
+    const skippings = await Skipping.find({
+        scheduleId: {
+            $in: schedulesIds
+        }
+    })
+
+    schedules.forEach(schedule => {
+       schedule.skippings = skippings.find(skipping => skipping.scheduleId.toString() === schedule._id.toString()).skippings;
+    });
+    res.send(schedules);
+});
+
 module.exports = router;
