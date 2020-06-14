@@ -17,6 +17,8 @@ const schema = mongoose.Schema({
     groupsManagement: Boolean,
     studentsManagement: Boolean,
     skippingsManagement: Boolean,
+    isDepartmentHead: Boolean,
+    specialtyId: ObjectId,
     token: {
         type: String,
         required: true

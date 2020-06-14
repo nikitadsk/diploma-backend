@@ -11,6 +11,25 @@ router.get('/skippings', auth, async (req, res) => {
     res.send(skippings);
 });
 
+router.get('/skippings/by-schedule-id/:scheduleId', auth, async (req, res) => {
+    const skipping = await Skipping.findOne({ scheduleId: req.params.scheduleId});
+    res.send(skipping);
+});
+
+router.get('/skippings/verification/:scheduleId', auth, async (req, res) => {
+    await Schedule.updateOne({ _id: req.params.scheduleId }, {
+        $set: {
+            isVerified: true
+        }
+    });
+    res.send({
+        success: {
+            title: 'Успех',
+            message: 'Пропуск отмечен'
+        }
+    });
+});
+
 router.post('/skippings', auth, async (req, res) => {
     const skipping = new Skipping(req.body);
     skipping._id = new mongoose.mongo.ObjectId();
