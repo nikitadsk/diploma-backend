@@ -5,6 +5,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const Skipping = require('../models/Skipping');
 const Schedule = require('../models/Schedule');
+const Student = require('../models/Student');
 
 router.get('/skippings', auth, async (req, res) => {
     const skippings = await Skipping.find();
@@ -59,6 +60,9 @@ router.post('/skippings/by-group-and-dates', auth, async (req, res) => {
         isVerified: true
     });
 
+    const students = await Student.find({ groupId });
+    console.log(students);
+
     const schedulesIds = schedules.map(schedule => schedule._id);
     const skippings = await Skipping.find({
         scheduleId: {
@@ -67,7 +71,34 @@ router.post('/skippings/by-group-and-dates', auth, async (req, res) => {
     })
 
     schedules.forEach(schedule => {
-       schedule.skippings = skippings.find(skipping => skipping.scheduleId.toString() === schedule._id.toString()).skippings;
+        const localSkippings = skippings.find(skipping => skipping.scheduleId.toString() === schedule._id.toString()).skippings;
+        schedule.skippings = localSkippings;
+
+        const obj = {};
+
+        students.forEach(({ firstName, lastName, patronym }) => {
+            const studentName = `${lastName} ${firstName} ${patronym}`
+            obj[studentName] = {
+                respectfulSkippingsCount: 0,
+                disrespectfulSkippingsCount: 0
+            }
+        });
+
+        localSkippings.forEach(skipping => {
+            skipping.respectfulSkippings.forEach(respectfulSkipping => {
+                const { firstName, lastName, patronym } = students.find(student => student._id.toString() === respectfulSkipping.toString());
+                const studentName = `${lastName} ${firstName} ${patronym}`
+                obj[studentName].respectfulSkippingsCount++;
+            });
+
+            skipping.disrespectfulSkippings.forEach(disrespectfulSkipping => {
+                const { firstName, lastName, patronym } = students.find(student => student._id.toString() === disrespectfulSkipping.toString());
+                const studentName = `${lastName} ${firstName} ${patronym}`
+                obj[studentName].disrespectfulSkippingsCount++;
+            });
+        });
+
+        schedule.skippingsForStudents = obj;
     });
     res.send(schedules);
 });

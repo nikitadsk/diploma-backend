@@ -12,7 +12,8 @@ const schema = mongoose.Schema({
     }],
     isVerified: Boolean,
     isMarked: Boolean,
-    skippings: [Object]
+    skippings: [Object],
+    skippingsForStudents: Object
 });
 
 module.exports = mongoose.model('Schedule', schema);
