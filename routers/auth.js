@@ -8,7 +8,6 @@ router.post('/login', async (req, res) => {
         const { login, password } = req.body;
 
         const user = await User.findByCredentials(login, password);
-
         if (!user) {
             return res.status(401).send({
                 title: 'Ошибка авторизации',

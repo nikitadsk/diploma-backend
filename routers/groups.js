@@ -30,6 +30,18 @@ router.get('/groups/by-curator-id/:curatorId', auth, async (req, res) => {
     res.send(group);
 });
 
+router.get('/groups/by-specialty-id/:specialtyId', auth, async (req, res) => {
+    const groups = await Group.find({
+        specialtyId: req.params.specialtyId
+    });
+
+    for (let group of groups) {
+        group = await generateProperties(group);
+    }
+
+    res.send(groups);
+});
+
 router.post('/groups', auth, async (req, res) => {
     const group = new Group(req.body);
     group._id = new mongoose.mongo.ObjectId();
